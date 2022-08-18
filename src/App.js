@@ -1,23 +1,33 @@
-import logo from './logo.svg';
 import './App.css';
+import {getMonth} from './util'
+import CalenderHeader from './comps/CalenderHeader';
+import Month from './comps/Month';
+import Sidebar from './comps/Sidebar';
+import { useContext, useEffect, useState } from 'react';
+import Context from './context/Context';
+import dayjs from 'dayjs'
+import EvModel from './comps/EvModel';
 
 function App() {
+  const [currMonth , setCurrMonth] = useState(getMonth())
+  const {month,setMonthIndex,showModal,} = useContext(Context)
+  
+  
+  useEffect(()=>{
+    setCurrMonth(getMonth(month))
+  },[month])
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div >
+      <div className='h-screen flex flex-col'>
+        <CalenderHeader/>
+        <div className='flex flex-1'>
+          <Sidebar/>
+          <Month month={currMonth}/>
+        </div>
+      </div>
+      {showModal && (<EvModel/>)}
     </div>
   );
 }
